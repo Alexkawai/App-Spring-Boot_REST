@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.model.Role;
 import com.example.model.User;
 import com.example.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,37 +29,24 @@ public class AdminController {
     public String printUser(ModelMap model) {
 
         List<User> users= service.allUsers();
+        model.addAttribute("roles", service.allRoles());
         model.addAttribute("users", users);
-
+        model.addAttribute("addUser", new User());
         return "index";
     }
 
-    @GetMapping(value = "/admin/edit/{id}")
+    /*@GetMapping(value = "/admin/edit/{id}")
     public String editUser(@PathVariable("id") long id, ModelMap model) {
         User user = service.getById(id);
         model.addAttribute("user", user);
         return "edit";
-    }
-    @PostMapping(value = "/admin/edit")
-    public String edit( User user) {
-        service.edit(user);
-        return "redirect:/admin";
-    }
+    }*/
 
-    @GetMapping(value = "/admin/delete/{id}")
-    public String deleteUser(@PathVariable("id") long id) {
-        service.delete(id);
-        return "redirect:/admin";
-    }
 
-    @GetMapping(value = "/admin/add")
-    public String addUser(Model model){
-        model.addAttribute("user",new User());
-        return "add";
-    }
-    @PostMapping(value = "/admin/add")
-    public String create( User user) {
-        service.save(user);
+    @PostMapping(value = "/admin/add" )
+    public String create( User user ,
+                          @RequestParam(value = "select_role", required = false) String[] role) {
+        service.save(user,role);
         return "redirect:/admin";
     }
     @GetMapping(value = "/user")
@@ -78,6 +63,20 @@ public class AdminController {
     @PostMapping(value = "/login")
     public String login( ) {
         return "redirect:/user";
+    }
+    @PatchMapping(value = "/{id}")
+    public String update(@ModelAttribute("user") User user,
+                         @RequestParam(value = "select_roles", required = false) String[] role) {
+
+        service.edit(user, role);
+        return "redirect:/admin";
+    }
+
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable("id") Long id) {
+        service.delete(id);
+        return "redirect:/admin";
     }
 
 }

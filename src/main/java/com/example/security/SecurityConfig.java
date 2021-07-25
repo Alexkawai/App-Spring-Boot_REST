@@ -49,8 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //Настройка для входа в систему
                .formLogin()
               //  .loginPage("/login")
-            //    .usernameParameter("j_username")
-             //   .passwordParameter("j_password")
+               // .usernameParameter("email")
+               // .passwordParameter("password")
                 //Перенарпавление на главную страницу после успешного входа
                 .successHandler(successUserHandler);
 //                .permitAll()
