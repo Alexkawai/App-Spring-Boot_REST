@@ -1,7 +1,6 @@
 package com.example.service;
 
 import com.example.dao.Dao;
-import com.example.dao.UserRepository;
 import com.example.model.Role;
 import com.example.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @org.springframework.stereotype.Service
