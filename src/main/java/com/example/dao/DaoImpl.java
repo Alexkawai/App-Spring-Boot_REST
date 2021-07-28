@@ -20,28 +20,17 @@ public class DaoImpl implements Dao{
     @PersistenceContext
     private EntityManager  em ;
 
-    private Set<Role> getRolesFromBD(String[] role){
-        Set<Role> rol = new HashSet<>();
-        for (String s : role) {
-            if (s.equals("ROLE_USER")) {
-                rol.add(em.find(Role.class,1L));
-            } else {
-                rol.add(em.find(Role.class,2L));
-            }
-        }
-        return rol;
+
+    @Override
+    public void save(User user) {
+        em.merge(user);
     }
 
     @Override
-    public void save(User user,String[] role) {
-        user.setRoles(getRolesFromBD(role));
-        em.merge(user);
-    }
-    @Override
     public User getById(Long id) {
-        User user = em.find(User.class, id);
-        em.detach(user);
-        return user;
+
+        return em.createQuery("select distinct u from User u left join fetch u.roles where u.id=:id",User.class)
+                .setParameter("id",id).getSingleResult();
     }
 
     @Override
@@ -55,13 +44,13 @@ public class DaoImpl implements Dao{
     }
 
     @Override
-    public void edit(User user,String[] role) {
+    public void edit(User user) {
         User user2=em.find(User.class, user.getId());
         user2.setId(user.getId());
         user2.setName(user.getName());
         user2.setLastName(user.getLastName());
         user2.setEmail(user.getEmail());
-        user2.setRoles(getRolesFromBD(role));
+        user2.setRoles(user.getRoles());
 
         em.merge(user2);
     }

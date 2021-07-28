@@ -27,26 +27,19 @@ public class AdminController {
 
     @GetMapping(value = "/admin")
     public String printUser(ModelMap model) {
-
-        List<User> users= service.allUsers();
-        model.addAttribute("roles", service.allRoles());
-        model.addAttribute("users", users);
-        model.addAttribute("addUser", new User());
+//
+//        List<User> users= service.allUsers();
+//        model.addAttribute("roles", service.allRoles());
+//        model.addAttribute("users", users);
+//        model.addAttribute("addUser", new User());
         return "index";
     }
-
-    /*@GetMapping(value = "/admin/edit/{id}")
-    public String editUser(@PathVariable("id") long id, ModelMap model) {
-        User user = service.getById(id);
-        model.addAttribute("user", user);
-        return "edit";
-    }*/
 
 
     @PostMapping(value = "/admin/add" )
     public String create( User user ,
                           @RequestParam(value = "select_role", required = false) String[] role) {
-        service.save(user,role);
+//        service.save(user,role);
         return "redirect:/admin";
     }
     @GetMapping(value = "/user")
@@ -68,15 +61,15 @@ public class AdminController {
     public String update(@ModelAttribute("user") User user,
                          @RequestParam(value = "select_roles", required = false) String[] role) {
 
-        service.edit(user, role);
+       // service.edit(user, role);
         return "redirect:/admin";
     }
 
 
-    @DeleteMapping("/{id}")
+   /* @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") Long id) {
         service.delete(id);
         return "redirect:/admin";
-    }
+    }*/
 
 }

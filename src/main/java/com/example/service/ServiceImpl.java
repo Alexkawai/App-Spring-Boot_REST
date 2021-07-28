@@ -33,8 +33,8 @@ public class ServiceImpl implements Service{
 
     @Transactional
     @Override
-    public void save(User user, String[] role) {
-        dao.save(user, role);
+    public void save(User user) {
+        dao.save(user);
     }
 
     @Transactional
@@ -45,8 +45,8 @@ public class ServiceImpl implements Service{
 
     @Transactional
     @Override
-    public void edit(User user,String[] role) {
-        dao.edit(user,role);
+    public void edit(User user) {
+        dao.edit(user);
     }
 
     @Override

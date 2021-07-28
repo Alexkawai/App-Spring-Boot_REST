@@ -13,11 +13,11 @@ public interface Service {
 
      List<User> allUsers();
 
-     void save(User user, String[] role);
+     void save(User user);
 
      void delete(Long id);
 
-     void edit(User user,String[] role);
+     void edit(User user);
 
      Set<Role> allRoles();
 
