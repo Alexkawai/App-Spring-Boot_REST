@@ -3,6 +3,8 @@ package com.example.controller;
 import com.example.model.User;
 import com.example.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -15,31 +17,34 @@ public class RESTController {
 
     @Autowired
     public void setService(Service service) {
+
         this.service = service;
     }
 
     @GetMapping(value = "/allUsers")
-    public List<User>  list(ModelMap model) {
-        return service.allUsers();
+    public ResponseEntity<List<User>> list() {
+        return new ResponseEntity(service.allUsers(), HttpStatus.FOUND);
     }
 
     @PostMapping(value = "/add" )
-    public void create(@RequestBody User user ) {
+    public ResponseEntity<Void> create(@RequestBody User user ) {
         service.save(user);
+        return new ResponseEntity( HttpStatus.CREATED);
     }
     @GetMapping(value = "/{id}")
-    public User takeUser(@PathVariable Long id) {
-        return service.getById(id);
+    public ResponseEntity<User> takeUser(@PathVariable Long id) {
+        return new ResponseEntity(service.getById(id), HttpStatus.FOUND);
     }
 
     @PatchMapping(value = "/edit")
-    public void update(@RequestBody User user) {
+    public ResponseEntity<Void> update(@RequestBody User user) {
         service.edit(user);
+        return new ResponseEntity( HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
-
+        return new ResponseEntity( HttpStatus.OK);
     }
 }

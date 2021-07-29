@@ -166,11 +166,7 @@ document.addEventListener('click',function (event){
             $("#nav-home-tab").click();
             getUsers();
         });
-
     }
-
-
-
 
 })
 
