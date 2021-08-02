@@ -3,6 +3,9 @@ package com.example.dao;
 
 import com.example.model.Role;
 import com.example.model.User;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 
@@ -18,11 +21,18 @@ import java.util.stream.Collectors;
 public class DaoImpl implements Dao{
 
     @PersistenceContext
-    private EntityManager  em ;
+    private EntityManager         em ;
+
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public DaoImpl(BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
 
     @Override
     public void save(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         em.merge(user);
     }
 
@@ -50,6 +60,7 @@ public class DaoImpl implements Dao{
         user2.setName(user.getName());
         user2.setLastName(user.getLastName());
         user2.setEmail(user.getEmail());
+        user2.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user2.setRoles(user.getRoles());
 
         em.merge(user2);
