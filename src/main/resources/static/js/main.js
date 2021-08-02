@@ -17,6 +17,7 @@ function doTable(data) {
         temp +="<td>"+u.name+"</td>";
         temp +="<td>"+u.lastName+"</td>";
         temp +="<td>"+u.email+"</td>";
+        u.password;
         temp +="<td>"+getRoles(u)+"</td>";
         temp +="<td><a href='rest/"+u.id+"' type='button' class='btn btn-primary eBtn' >Edit</a></td>";
         temp +="<td><a type='button' href='rest/"+u.id+"' class='btn btn-danger delBtn' >Delete</a></td></tr>";
@@ -127,8 +128,9 @@ document.addEventListener('click',function (event){
             password:$("#edit #password").val(),
             roles: data
         };
+        console.log(user);
         fetch('rest/edit',{
-            method: 'PATCH',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             },
@@ -168,6 +170,14 @@ document.addEventListener('click',function (event){
         });
     }
 
+    //Other
+
+    if ($(event.target).hasClass("logout")){
+        $(location).attr('href',"http://localhost:8080/login?logout") ;
+    }
+    if ($(event.target).hasClass("user")){
+        $(location).attr('href',"http://localhost:8080/user") ;
+    }
 })
 
 

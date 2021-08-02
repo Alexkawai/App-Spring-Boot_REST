@@ -36,7 +36,7 @@ public class RESTController {
         return new ResponseEntity(service.getById(id), HttpStatus.FOUND);
     }
 
-    @PatchMapping(value = "/edit")
+    @PutMapping(value = "/edit")
     public ResponseEntity<Void> update(@RequestBody User user) {
         service.edit(user);
         return new ResponseEntity( HttpStatus.OK);
